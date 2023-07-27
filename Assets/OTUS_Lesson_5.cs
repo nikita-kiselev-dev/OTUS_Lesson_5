@@ -4,31 +4,28 @@ using System.Text;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class OTUS_Lesson_5 : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI debugText;
+    [SerializeField] private Toggle isIntArrayToggle;
     
-    private bool isIntArray = true;
     private int[] intArray;
     private float[] floatArray;
 
     private string stringResult;
     
     private string saveFileName = "StringResult.txt";
-
-    public void SetBool()
-    {
-        isIntArray = !isIntArray;
-    }
+    
     public void GetStart(bool isIntArray)
     {
 
         //Блок try-catch-finally
         try
         {
-            if (isIntArray)
+            if (isIntArrayToggle.isOn)
             {
                 intArray = CreateArray<int>();
                 intArray = FillArray(intArray);
@@ -48,7 +45,7 @@ public class OTUS_Lesson_5 : MonoBehaviour
         {
             Debug.Log("CreateArray Completed!");
 
-            if (isIntArray)
+            if (isIntArrayToggle.isOn)
             {
                 LogArray(intArray);
                 
@@ -120,9 +117,19 @@ public class OTUS_Lesson_5 : MonoBehaviour
     }
     private void CalculateRef<T>(ref T firstCellValue)
     {
-        dynamic dynamicFirstCellValue = firstCellValue;
-        dynamicFirstCellValue += 10.0f;
-        firstCellValue = dynamicFirstCellValue;
+        if (typeof(T) == typeof(int))
+        {
+            int intValue = Convert.ToInt32(firstCellValue);
+            intValue += 10;
+            firstCellValue = (T)(object)intValue;
+        }
+        else if (typeof(T) == typeof(float))
+        {
+            float floatValue = Convert.ToSingle(firstCellValue);
+            floatValue += 10.0f;
+            firstCellValue = (T)(object)floatValue;
+        }
+        
         Debug.Log($"new {typeof(T)} array cell [{0}] value: {firstCellValue}");
 
         debugText.text = "Ref calculated!";

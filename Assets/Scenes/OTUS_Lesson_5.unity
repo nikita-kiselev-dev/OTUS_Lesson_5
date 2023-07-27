@@ -644,6 +644,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debugText: {fileID: 1010535532}
+  isIntArrayToggle: {fileID: 2021773791}
 --- !u!4 &203290658
 Transform:
   m_ObjectHideFlags: 0
